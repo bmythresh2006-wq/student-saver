@@ -3,13 +3,13 @@
 <head>
   <title>Admin Panel</title>
 </head>
-
 <body>
 
 <h2>Add Product</h2>
 
 <input id="name" placeholder="Product Name"><br><br>
-<input id="price" placeholder="Price"><br><br>
+<input id="originalPrice" placeholder="Original Price"><br><br>
+<input id="price" placeholder="Selling Price"><br><br>
 <input id="category" placeholder="Category"><br><br>
 <input id="image" placeholder="Image path (images/maggi.jpg)"><br><br>
 
@@ -21,6 +21,7 @@
 async function addProduct() {
   const product = {
     name: document.getElementById("name").value,
+    originalPrice: Number(document.getElementById("originalPrice").value),
     price: Number(document.getElementById("price").value),
     category: document.getElementById("category").value,
     image: "/" + document.getElementById("image").value
@@ -28,7 +29,7 @@ async function addProduct() {
 
   await fetch("/api/add-product", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {"Content-Type": "application/json"},
     body: JSON.stringify(product)
   });
 

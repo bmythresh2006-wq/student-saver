@@ -1,7 +1,6 @@
 let allProducts = [];
 let cart = {};
 
-// LOAD PRODUCTS
 async function loadProducts() {
   const res = await fetch("/api/products");
   const products = await res.json();
@@ -11,13 +10,12 @@ async function loadProducts() {
   renderCategories(products);
 }
 
-// SHOW PRODUCTS
 function renderProducts(products) {
   const container = document.getElementById("products");
   container.innerHTML = "";
 
   products.forEach(p => {
-    const qty = cart[p.id]?.qty || 0;
+    const discount = Math.round(((p.originalPrice - p.price)/p.originalPrice)*100);
 
     const div = document.createElement("div");
     div.className = "card";
@@ -25,115 +23,65 @@ function renderProducts(products) {
     div.innerHTML = `
       <img src="${p.image}">
       <h3>${p.name}</h3>
+      <p style="color:green">${discount}% OFF</p>
+      <p class="strike">₹${p.originalPrice}</p>
       <p>₹${p.price}</p>
-
-      <div class="qty-box">
-        <button onclick="decrease(${p.id})">-</button>
-        <span>${qty}</span>
-        <button onclick="increase(${p.id}, ${p.price}, '${p.name}')">+</button>
-      </div>
+      <button onclick="addToCart(${p.id}, ${p.price}, '${p.name}')">Add</button>
     `;
 
     container.appendChild(div);
   });
 }
 
-// CATEGORY
 function renderCategories(products) {
-  const categories = ["All", ...new Set(products.map(p => p.category))];
+  const cats = ["All", ...new Set(products.map(p => p.category))];
   const div = document.getElementById("categories");
 
-  div.innerHTML = categories.map(c =>
+  div.innerHTML = cats.map(c =>
     `<button onclick="filterCategory('${c}')">${c}</button>`
   ).join("");
 }
 
-// FILTER
-function filterCategory(category) {
-  if (category === "All") renderProducts(allProducts);
-  else renderProducts(allProducts.filter(p => p.category === category));
+function filterCategory(c) {
+  if (c === "All") renderProducts(allProducts);
+  else renderProducts(allProducts.filter(p => p.category === c));
 }
 
-// SEARCH
-function searchProducts() {
-  const value = document.getElementById("search").value.toLowerCase();
-
-  const filtered = allProducts.filter(p =>
-    p.name.toLowerCase().includes(value)
-  );
-
-  renderProducts(filtered);
+function searchProduct() {
+  const val = document.getElementById("search").value.toLowerCase();
+  renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(val)));
 }
 
-// CART
-function increase(id, price, name) {
-  if (!cart[id]) cart[id] = { qty: 0, price, name };
-
+function addToCart(id, price, name) {
+  if (!cart[id]) cart[id] = {qty:0, price, name};
   cart[id].qty++;
   updateTotal();
-  animateCart();
-  renderProducts(allProducts);
 }
 
-function decrease(id) {
-  if (!cart[id]) return;
-
-  cart[id].qty--;
-
-  if (cart[id].qty <= 0) delete cart[id];
-
-  updateTotal();
-  renderProducts(allProducts);
-}
-
-// TOTAL
 function updateTotal() {
   let total = 0;
-
-  Object.values(cart).forEach(item => {
-    total += item.qty * item.price;
-  });
-
+  Object.values(cart).forEach(i => total += i.qty*i.price);
   document.getElementById("total").innerText = total;
 }
 
-// CHECKOUT
 function openCheckout() {
-  const page = document.getElementById("checkoutPage");
-  page.style.display = "block";
-
-  const summary = document.getElementById("orderSummary");
-  summary.innerHTML = "";
+  document.getElementById("checkoutPage").style.display = "block";
 
   let total = 0;
+  const div = document.getElementById("orderSummary");
+  div.innerHTML = "";
 
-  Object.values(cart).forEach(item => {
-    total += item.qty * item.price;
-
-    summary.innerHTML += `
-      <p>${item.name} - ${item.qty} x ₹${item.price}</p>
-    `;
+  Object.values(cart).forEach(i => {
+    total += i.qty*i.price;
+    div.innerHTML += `<p>${i.name} - ${i.qty} x ₹${i.price}</p>`;
   });
 
   document.getElementById("finalTotal").innerText = total;
 }
 
-// UPI PAYMENT
-function payNow() {
-  let total = document.getElementById("finalTotal").innerText;
-
-  const upi = `upi://pay?pa=yourname@upi&pn=StudentSaver&am=${total}&cu=INR`;
-
-  window.location.href = upi;
-}
-
-// ANIMATION
-function animateCart() {
-  const bar = document.querySelector(".top-bar");
-  bar.style.transform = "scale(1.1)";
-  setTimeout(() => {
-    bar.style.transform = "scale(1)";
-  }, 200);
+function payUPI() {
+  const total = document.getElementById("finalTotal").innerText;
+  window.location.href = `upi://pay?pa=yourname@upi&pn=StudentSaver&am=${total}&cu=INR`;
 }
 
 loadProducts();

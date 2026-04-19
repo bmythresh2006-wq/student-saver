@@ -1,53 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Student Saver Delivery</title>
+  <title>Student Saver</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- TOP BAR -->
 <div class="top-bar">
   🛒 ₹<span id="total">0</span>
   <button onclick="openCheckout()">Checkout</button>
 </div>
 
-<h1>Student Saver Delivery — Lower than MRP</h1>
+<h2>Student Saver Delivery</h2>
 
-<!-- SEARCH -->
-<input id="search" placeholder="Search products..." oninput="searchProducts()">
-
-<!-- CATEGORY -->
 <div id="categories"></div>
 
-<!-- PRODUCTS -->
+<input id="search" placeholder="Search..." onkeyup="searchProduct()">
+
 <div id="products"></div>
 
-<!-- CHECKOUT -->
-<div id="checkoutPage" style="display:none; padding:20px;">
+<div id="checkoutPage" style="display:none;">
+  <h2>Pay via UPI</h2>
 
-  <h2>Pay via UPI / PhonePe</h2>
-
-  <p><b>PhonePe Number:</b> 8074923471</p>
-  <p><b>UPI ID:</b> yourname@upi</p>
-
-  <!-- QR CODE -->
-  <img src="/images/upi-qr.png" width="200">
-
-  <br><br>
-
-  <button class="pay-btn" onclick="payNow()">
-    Pay via PhonePe
-  </button>
-
-  <hr>
+  <button onclick="payUPI()">Pay via PhonePe / UPI</button>
 
   <h3>Order Summary</h3>
   <div id="orderSummary"></div>
 
-  <h3>Total Amount: ₹<span id="finalTotal"></span></h3>
-
+  <h3>Total ₹<span id="finalTotal"></span></h3>
 </div>
 
 <script src="script.js"></script>
