@@ -7,14 +7,34 @@
 
 <body>
 
-<h1>Student Saver Delivery</h1>
+<!-- TOP BAR -->
+<div class="top-bar">
+  🛒 Total ₹<span id="total">0</span>
+  <button onclick="openCheckout()">Checkout</button>
+</div>
 
+<h1>Student Saver Delivery — Lower than MRP</h1>
+
+<!-- CATEGORY -->
+<div id="categories"></div>
+
+<!-- PRODUCTS -->
 <div id="products"></div>
 
-<!-- ✅ CART MUST BE INSIDE BODY -->
-<div class="cart">
-  Total ₹<span id="total">0</span>
-  <button onclick="checkout()">Checkout</button>
+<!-- CHECKOUT -->
+<div id="checkoutPage" style="display:none;">
+  <h2>Pay via UPI / PhonePe</h2>
+
+  <p><b>PhonePe Number:</b> 8074923471</p>
+  <p><b>UPI ID:</b> yourname@upi</p>
+
+  <h3>Order Summary</h3>
+  <div id="orderSummary"></div>
+
+  <h3>Total: ₹<span id="finalTotal"></span></h3>
+
+  <p>After payment, upload screenshot:</p>
+  <input type="file">
 </div>
 
 <script src="script.js"></script>

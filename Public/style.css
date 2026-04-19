@@ -2,57 +2,24 @@ body {
   font-family: Arial;
 }
 
-header {
-  background: #10b981;
+.top-bar {
+  position: sticky;
+  top: 0;
+  background: green;
   color: white;
-  padding: 15px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 #products {
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
 }
 
 .card {
   border: 1px solid #ddd;
+  margin: 10px;
   padding: 10px;
-  width: 180px;
-}
-
-.card img {
-  width: 100%;
-}
-
-.badge {
-  background: green;
-  color: white;
-  font-size: 12px;
-}
-
-.strike {
-  text-decoration: line-through;
-  color: red;
-}
-.qty {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 5px;
-}
-
-.qty button {
-  padding: 5px 10px;
-  background: green;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.card {
-  border-radius: 12px;
-  padding: 10px;
-  width: 180px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  background: white;
+  width: 150px;
 }

@@ -1,71 +1,66 @@
-const products = [
-  // Instant Food
+module.exports = [
   {
     id: 1,
-    name: "Maggi Masala Cup Noodles (70g)",
-    category: "Instant Food",
-    mrp: 52,
+    name: "Maggi Masala Cup (70g)",
     price: 48,
-    img: "images/maggi1.jpg"
+    originalPrice: 52,
+    image: "/images/maggi1.jpg",
+    category: "Instant Food"
   },
   {
     id: 2,
-    name: "Maggi Chilly Chow Cup Noodles (70g)",
-    category: "Instant Food",
-    mrp: 52,
+    name: "Maggi Chilly Chow Cup (70g)",
     price: 48,
-    img: "images/maggi2.jpg"
+    originalPrice: 52,
+    image: "/images/maggi2.jpg",
+    category: "Instant Food"
   },
   {
     id: 3,
     name: "Nissin Mazedaar Masala (45g)",
-    category: "Instant Food",
-    mrp: 38,
     price: 35,
-    img: "images/nissin.jpg"
+    originalPrice: 38,
+    image: "/images/nissin.jpg",
+    category: "Instant Food"
   },
   {
     id: 4,
     name: "Too Yumm K-Bomb Hot & Spicy (80g)",
-    category: "Instant Food",
-    mrp: 45,
     price: 30,
-    img: "images/kbomb.jpg"
+    originalPrice: 45,
+    image: "/images/kbomb.jpg",
+    category: "Instant Food"
   },
-
-  // Snacks & Beverages
   {
     id: 5,
     name: "Bingo Chilli Chips (90g)",
-    category: "Snacks & Beverages",
-    mrp: 50,
     price: 35,
-    img: "images/bingo.jpg"
+    originalPrice: 50,
+    image: "/images/bingo.jpg",
+    category: "Snacks"
   },
   {
     id: 6,
     name: "Lays Hot n Sweet Chilli (80g)",
-    category: "Snacks & Beverages",
-    mrp: 48,
     price: 39,
-    img: "images/lays.jpg"
+    originalPrice: 48,
+    image: "/images/lays.jpg",
+    category: "Snacks"
   },
   {
     id: 7,
     name: "Kurkure Puffcorn Cheez (58g)",
-    category: "Snacks & Beverages",
-    mrp: 20,
     price: 18.49,
-    img: "images/kurkure.jpg"
+    originalPrice: 20,
+    image: "/images/kurkure.jpg",
+    category: "Snacks"
   },
   {
     id: 8,
     name: "Lotte Choco Pie (504g)",
-    category: "Snacks & Beverages",
-    mrp: 205,
     price: 164,
-    img: "images/choco.jpg"
+    originalPrice: 205,
+    image: "/images/choco.jpg",
+    category: "Snacks"
   }
 ];
-
-module.exports = products;

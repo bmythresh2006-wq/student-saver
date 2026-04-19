@@ -1,56 +1,64 @@
+let allProducts = [];
 let cart = {};
 
+// LOAD PRODUCTS
 async function loadProducts() {
   const res = await fetch("/api/products");
   const products = await res.json();
+  allProducts = products;
 
+  renderProducts(products);
+  renderCategories(products);
+}
+
+// SHOW PRODUCTS
+function renderProducts(products) {
   const container = document.getElementById("products");
   container.innerHTML = "";
 
   products.forEach(p => {
-    const discount = Math.round(
-      ((p.originalPrice - p.price) / p.originalPrice) * 100
-    );
-
     const div = document.createElement("div");
     div.className = "card";
 
     div.innerHTML = `
-      <div class="badge">${discount}% OFF</div>
-      <img src="${p.image}">
+      <img src="${p.image}" width="120">
       <h3>${p.name}</h3>
       <p>₹${p.price}</p>
-      <p class="strike">₹${p.originalPrice}</p>
-
-      <div class="qty">
-        <button onclick="decrease(${p.id})">-</button>
-        <span id="qty-${p.id}">0</span>
-        <button onclick="increase(${p.id}, ${p.price})">+</button>
-      </div>
+      <button onclick="addToCart(${p.id}, ${p.price}, '${p.name}')">Add</button>
     `;
 
     container.appendChild(div);
   });
 }
 
-function increase(id, price) {
-  if (!cart[id]) cart[id] = { qty: 0, price: price };
+// CATEGORY BUTTONS
+function renderCategories(products) {
+  const categories = ["All", ...new Set(products.map(p => p.category))];
+  const div = document.getElementById("categories");
+
+  div.innerHTML = categories.map(c =>
+    `<button onclick="filterCategory('${c}')">${c}</button>`
+  ).join("");
+}
+
+// FILTER
+function filterCategory(category) {
+  if (category === "All") {
+    renderProducts(allProducts);
+  } else {
+    renderProducts(allProducts.filter(p => p.category === category));
+  }
+}
+
+// CART
+function addToCart(id, price, name) {
+  if (!cart[id]) cart[id] = { qty: 0, price, name };
 
   cart[id].qty++;
-  document.getElementById(`qty-${id}`).innerText = cart[id].qty;
-
   updateTotal();
 }
 
-function decrease(id) {
-  if (!cart[id] || cart[id].qty === 0) return;
-
-  cart[id].qty--;
-  document.getElementById(`qty-${id}`).innerText = cart[id].qty;
-
-  updateTotal();
-}
-
+// TOTAL
 function updateTotal() {
   let total = 0;
 
@@ -61,19 +69,26 @@ function updateTotal() {
   document.getElementById("total").innerText = total;
 }
 
-loadProducts();
-function checkout() {
-  let total = document.getElementById("total").innerText;
+// CHECKOUT
+function openCheckout() {
+  const page = document.getElementById("checkoutPage");
+  page.style.display = "block";
 
-  if (total == 0) {
-    alert("Cart is empty");
-    return;
-  }
+  const summary = document.getElementById("orderSummary");
+  summary.innerHTML = "";
 
-  const upiID = "yourname@upi"; // change this
-  const name = "Student Saver";
+  let total = 0;
 
-  const url = `upi://pay?pa=${upiID}&pn=${name}&am=${total}&cu=INR`;
+  Object.values(cart).forEach(item => {
+    total += item.qty * item.price;
 
-  window.location.href = url;
+    summary.innerHTML += `
+      <p>${item.name} - ${item.qty} x ₹${item.price}</p>
+    `;
+  });
+
+  document.getElementById("finalTotal").innerText = total;
 }
+
+// START
+loadProducts();
