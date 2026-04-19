@@ -1,34 +1,125 @@
 body {
   font-family: Arial;
+  margin: 0;
+  background: #f5f5f5;
 }
 
+/* 🔝 Top bar */
 .top-bar {
   position: sticky;
   top: 0;
   background: green;
   color: white;
-  padding: 10px;
+  padding: 12px;
   display: flex;
   justify-content: space-between;
+  z-index: 100;
 }
 
-#products {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.card {
-  width: 200px;
+/* 🔍 Search */
+#search {
+  width: 95%;
   margin: 10px;
   padding: 10px;
-  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 
+/* 📂 Categories */
+#categories {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+#categories button {
+  border: none;
+  background: #eee;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+/* 🧱 GRID */
+#products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  padding: 10px;
+}
+
+/* 📦 Card */
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  position: relative;
+}
+
+/* 🟢 Badge */
+.badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: green;
+  color: white;
+  padding: 3px 6px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+/* 🖼 Image */
 .card img {
   width: 100%;
+  height: 130px;
+  object-fit: contain;
 }
 
+/* 💰 Price */
 .strike {
   text-decoration: line-through;
   color: red;
+}
+
+.price {
+  font-weight: bold;
+}
+
+/* ➕ Qty */
+.qty-box {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid green;
+  border-radius: 5px;
+  padding: 4px;
+}
+
+.qty-box button {
+  background: green;
+  color: white;
+  border: none;
+}
+
+/* 🧾 Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background: white;
+  margin: 10% auto;
+  padding: 20px;
+  width: 300px;
+  border-radius: 10px;
+}
+
+/* ✨ Floating animation */
+.fly {
+  position: fixed;
+  z-index: 999;
+  transition: all 0.7s ease;
 }
