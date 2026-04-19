@@ -1,130 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Admin Panel</title>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h2>Add Product</h2>
+<div class="top-bar">
+  🛠 Admin Dashboard
+</div>
 
-<input id="name" placeholder="Name"><br><br>
-<input id="originalPrice" placeholder="MRP"><br><br>
-<input id="price" placeholder="Selling Price"><br><br>
-<input id="category" placeholder="Category"><br><br>
-<input id="image" placeholder="Image path"><br><br>
+<div class="admin-container">
 
-<button onclick="addProduct()">Add</button>
+  <h2>Add / Edit Product</h2>
 
-<hr>
+  <div class="form">
+    <input id="name" placeholder="Product Name">
+    <input id="mrp" placeholder="Original Price">
+    <input id="price" placeholder="Selling Price">
 
-<h2>Edit Product</h2>
+    <select id="category">
+      <option>Instant Food</option>
+      <option>Snacks</option>
+      <option>Beverages</option>
+    </select>
 
-<input id="editId" placeholder="Product ID"><br><br>
-<input id="editName" placeholder="Name"><br><br>
-<input id="editOriginalPrice" placeholder="MRP"><br><br>
-<input id="editPrice" placeholder="Selling Price"><br><br>
-<input id="editCategory" placeholder="Category"><br><br>
-<input id="editImage" placeholder="Image path"><br><br>
+    <input id="image" placeholder="images/product.jpg">
 
-<button onclick="updateProduct()">Update</button>
+    <button onclick="saveProduct()">Save Product</button>
+  </div>
 
-<hr>
+  <h2>Products</h2>
 
-<h2>All Products</h2>
-<div id="list"></div>
+  <input id="adminSearch" placeholder="Search..." onkeyup="searchAdmin()">
 
-<script>
+  <table>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>MRP</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
 
-// LOAD PRODUCTS
-async function loadProducts() {
-  const res = await fetch("/api/products");
-  const data = await res.json();
+</div>
 
-  const div = document.getElementById("list");
-  div.innerHTML = "";
+<!-- EDIT POPUP -->
+<div id="editModal" class="modal">
+  <div class="modal-box">
+    <h3>Edit Product</h3>
 
-  data.forEach(p => {
-    div.innerHTML += `
-      <div style="border:1px solid #ccc; padding:10px; margin:10px;">
-        <b>ID:</b> ${p.id}<br>
-        <b>${p.name}</b><br>
-        ₹${p.price}<br>
-        Category: ${p.category}
+    <input id="editName">
+    <input id="editMRP">
+    <input id="editPrice">
 
-        <br><br>
+    <select id="editCategory">
+      <option>Instant Food</option>
+      <option>Snacks</option>
+      <option>Beverages</option>
+    </select>
 
-        <button onclick="fillEdit(${p.id}, '${p.name}', ${p.originalPrice}, ${p.price}, '${p.category}', '${p.image}')">
-          Edit
-        </button>
+    <input id="editImage">
 
-        <button onclick="deleteProduct(${p.id})">
-          Delete
-        </button>
-      </div>
-    `;
-  });
-}
+    <button onclick="updateProduct()">Update</button>
+    <button onclick="closeModal()">Close</button>
+  </div>
+</div>
 
-// ADD PRODUCT
-async function addProduct() {
-  const product = {
-    name: name.value,
-    originalPrice: Number(originalPrice.value),
-    price: Number(price.value),
-    category: category.value,
-    image: "/" + image.value
-  };
-
-  await fetch("/api/add-product", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify(product)
-  });
-
-  loadProducts();
-}
-
-// DELETE
-async function deleteProduct(id) {
-  await fetch("/api/product/" + id, { method: "DELETE" });
-  loadProducts();
-}
-
-// FILL EDIT FORM
-function fillEdit(id, nameVal, mrp, priceVal, cat, img) {
-  editId.value = id;
-  editName.value = nameVal;
-  editOriginalPrice.value = mrp;
-  editPrice.value = priceVal;
-  editCategory.value = cat;
-  editImage.value = img.replace("/", "");
-}
-
-// UPDATE PRODUCT
-async function updateProduct() {
-  const id = editId.value;
-
-  const updated = {
-    name: editName.value,
-    originalPrice: Number(editOriginalPrice.value),
-    price: Number(editPrice.value),
-    category: editCategory.value,
-    image: "/" + editImage.value
-  };
-
-  await fetch("/api/product/" + id, {
-    method: "PUT",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify(updated)
-  });
-
-  loadProducts();
-}
-
-loadProducts();
-
-</script>
-
+<script src="admin.js"></script>
 </body>
 </html>
