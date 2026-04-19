@@ -1,36 +1,68 @@
-const express = require("express");
-const path = require("path");
-
-const app = express();
-
-// Middleware
-app.use(express.json());
-
-// Serve static files (frontend)
-app.use(express.static(path.join(__dirname, "Public")));
-
-// ✅ Products API (8 items)
 app.get("/api/products", (req, res) => {
   res.json([
-    { id: 1, name: "Maggi", price: 12, image: "/images/maggi.jpg" },
-    { id: 2, name: "Maggi 2 Pack", price: 24, image: "/images/maggi2.jpg" },
-    { id: 3, name: "Lays", price: 20, image: "/images/lays.jpg" },
-    { id: 4, name: "Kurkure", price: 15, image: "/images/kurkure.jpg" },
-    { id: 5, name: "Bingo", price: 10, image: "/images/bingo.jpg" },
-    { id: 6, name: "Choco Bar", price: 25, image: "/images/choco.jpg" },
-    { id: 7, name: "Nissin Noodles", price: 30, image: "/images/nissin.jpg" },
-    { id: 8, name: "K-Bomb Chips", price: 18, image: "/images/kbomb.jpg" }
+    {
+      id: 1,
+      name: "Maggi Masala Cup Noodles (70g)",
+      price: 48,
+      originalPrice: 52,
+      image: "/images/maggi1.jpg",
+      category: "Instant Food"
+    },
+    {
+      id: 2,
+      name: "Maggi Chilly Chow Cup Noodles (70g)",
+      price: 48,
+      originalPrice: 52,
+      image: "/images/maggi2.jpg",
+      category: "Instant Food"
+    },
+    {
+      id: 3,
+      name: "Nissin Mazedaar Masala (45g)",
+      price: 35,
+      originalPrice: 38,
+      image: "/images/nissin.jpg",
+      category: "Instant Food"
+    },
+    {
+      id: 4,
+      name: "Too Yumm K-Bomb Hot & Spicy (80g)",
+      price: 30,
+      originalPrice: 45,
+      image: "/images/kbomb.jpg",
+      category: "Snacks & Beverages"
+    },
+    {
+      id: 5,
+      name: "Bingo Chilli Chips (90g)",
+      price: 35,
+      originalPrice: 50,
+      image: "/images/bingo.jpg",
+      category: "Snacks & Beverages"
+    },
+    {
+      id: 6,
+      name: "Lays Hot n Sweet Chilli (80g)",
+      price: 39,
+      originalPrice: 48,
+      image: "/images/lays.jpg",
+      category: "Snacks & Beverages"
+    },
+    {
+      id: 7,
+      name: "Kurkure Puffcorn Cheez (58g)",
+      price: 18.49,
+      originalPrice: 20,
+      image: "/images/kurkure.jpg",
+      category: "Snacks & Beverages"
+    },
+    {
+      id: 8,
+      name: "Lotte Choco Pie (504g)",
+      price: 164,
+      originalPrice: 205,
+      image: "/images/choco.jpg",
+      category: "Snacks & Beverages"
+    }
   ]);
-});
-
-// Default route (important for frontend)
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "Public", "index.html"));
-});
-
-// 🔥 IMPORTANT FOR RENDER
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on port ${PORT}`);
 });
