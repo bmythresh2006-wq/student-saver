@@ -1,7 +1,7 @@
 let allProducts = [];
 let cart = {};
 
-// LOAD PRODUCTS
+// LOAD
 async function loadProducts() {
   const res = await fetch("/api/products");
   const products = await res.json();
@@ -11,27 +11,34 @@ async function loadProducts() {
   renderCategories(products);
 }
 
-// SHOW PRODUCTS
+// RENDER PRODUCTS
 function renderProducts(products) {
   const container = document.getElementById("products");
   container.innerHTML = "";
 
   products.forEach(p => {
+    const qty = cart[p.id]?.qty || 0;
+
     const div = document.createElement("div");
     div.className = "card";
 
     div.innerHTML = `
-      <img src="${p.image}" width="120">
+      <img src="${p.image}">
       <h3>${p.name}</h3>
       <p>₹${p.price}</p>
-      <button onclick="addToCart(${p.id}, ${p.price}, '${p.name}')">Add</button>
+
+      <div class="qty-box">
+        <button onclick="decrease(${p.id})">-</button>
+        <span>${qty}</span>
+        <button onclick="increase(${p.id}, ${p.price}, '${p.name}')">+</button>
+      </div>
     `;
 
     container.appendChild(div);
   });
 }
 
-// CATEGORY BUTTONS
+// CATEGORY
 function renderCategories(products) {
   const categories = ["All", ...new Set(products.map(p => p.category))];
   const div = document.getElementById("categories");
@@ -41,21 +48,41 @@ function renderCategories(products) {
   ).join("");
 }
 
-// FILTER
 function filterCategory(category) {
-  if (category === "All") {
-    renderProducts(allProducts);
-  } else {
-    renderProducts(allProducts.filter(p => p.category === category));
-  }
+  if (category === "All") renderProducts(allProducts);
+  else renderProducts(allProducts.filter(p => p.category === category));
+}
+
+// SEARCH
+function searchProducts() {
+  const value = document.getElementById("search").value.toLowerCase();
+
+  const filtered = allProducts.filter(p =>
+    p.name.toLowerCase().includes(value)
+  );
+
+  renderProducts(filtered);
 }
 
 // CART
-function addToCart(id, price, name) {
+function increase(id, price, name) {
   if (!cart[id]) cart[id] = { qty: 0, price, name };
 
   cart[id].qty++;
   updateTotal();
+  animateCart();
+  renderProducts(allProducts);
+}
+
+function decrease(id) {
+  if (!cart[id]) return;
+
+  cart[id].qty--;
+
+  if (cart[id].qty <= 0) delete cart[id];
+
+  updateTotal();
+  renderProducts(allProducts);
 }
 
 // TOTAL
@@ -90,5 +117,22 @@ function openCheckout() {
   document.getElementById("finalTotal").innerText = total;
 }
 
-// START
+// UPI PAYMENT
+function payNow() {
+  let total = document.getElementById("finalTotal").innerText;
+
+  const upi = `upi://pay?pa=yourname@upi&pn=StudentSaver&am=${total}&cu=INR`;
+
+  window.location.href = upi;
+}
+
+// ANIMATION
+function animateCart() {
+  const bar = document.querySelector(".top-bar");
+  bar.style.transform = "scale(1.1)";
+  setTimeout(() => {
+    bar.style.transform = "scale(1)";
+  }, 200);
+}
+
 loadProducts();
