@@ -39,3 +39,10 @@ body {
 button {
   cursor: pointer;
 }
+
+.pay-btn {
+  background: purple;
+  color: white;
+  padding: 10px;
+  border: none;
+}

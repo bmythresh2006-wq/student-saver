@@ -25,15 +25,29 @@
 <div id="products"></div>
 
 <!-- CHECKOUT -->
-<div id="checkoutPage" style="display:none;">
-  <h2>Pay via UPI</h2>
+<div id="checkoutPage" style="display:none; padding:20px;">
 
-  <button onclick="payNow()">Pay via PhonePe / UPI</button>
+  <h2>Pay via UPI / PhonePe</h2>
+
+  <p><b>PhonePe Number:</b> 8074923471</p>
+  <p><b>UPI ID:</b> yourname@upi</p>
+
+  <!-- QR CODE -->
+  <img src="/images/upi-qr.png" width="200">
+
+  <br><br>
+
+  <button class="pay-btn" onclick="payNow()">
+    Pay via PhonePe
+  </button>
+
+  <hr>
 
   <h3>Order Summary</h3>
   <div id="orderSummary"></div>
 
-  <h3>Total: ₹<span id="finalTotal"></span></h3>
+  <h3>Total Amount: ₹<span id="finalTotal"></span></h3>
+
 </div>
 
 <script src="script.js"></script>

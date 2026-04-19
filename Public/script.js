@@ -1,7 +1,7 @@
 let allProducts = [];
 let cart = {};
 
-// LOAD
+// LOAD PRODUCTS
 async function loadProducts() {
   const res = await fetch("/api/products");
   const products = await res.json();
@@ -11,7 +11,7 @@ async function loadProducts() {
   renderCategories(products);
 }
 
-// RENDER PRODUCTS
+// SHOW PRODUCTS
 function renderProducts(products) {
   const container = document.getElementById("products");
   container.innerHTML = "";
@@ -48,6 +48,7 @@ function renderCategories(products) {
   ).join("");
 }
 
+// FILTER
 function filterCategory(category) {
   if (category === "All") renderProducts(allProducts);
   else renderProducts(allProducts.filter(p => p.category === category));
