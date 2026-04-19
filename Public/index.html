@@ -7,9 +7,9 @@
 
 <body>
 
-<!-- 🔝 Top bar -->
+<!-- TOP BAR -->
 <div class="top-bar">
-  <span>🛒 ₹<span id="total">0</span></span>
+  🛒 ₹<span id="total">0</span>
   <button onclick="openCheckout()">Checkout</button>
 </div>
 
@@ -20,21 +20,6 @@
 <div id="categories"></div>
 
 <div id="products"></div>
-
-<!-- 🧾 CHECKOUT MODAL -->
-<div id="checkoutModal" class="modal">
-  <div class="modal-content">
-    <h2>Checkout</h2>
-
-    <div id="orderSummary"></div>
-
-    <h3>Total ₹<span id="finalTotal"></span></h3>
-
-    <button onclick="payUPI()">Pay via PhonePe / UPI</button>
-
-    <button onclick="closeCheckout()">Close</button>
-  </div>
-</div>
 
 <script src="script.js"></script>
 </body>

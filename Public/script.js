@@ -1,6 +1,7 @@
 let allProducts = [];
 let cart = {};
 
+// LOAD PRODUCTS
 async function loadProducts() {
   const res = await fetch("/api/products");
   const data = await res.json();
@@ -11,6 +12,7 @@ async function loadProducts() {
   renderCategories(data);
 }
 
+// RENDER PRODUCTS
 function renderProducts(products) {
   const container = document.getElementById("products");
   container.innerHTML = "";
@@ -20,7 +22,7 @@ function renderProducts(products) {
       ((p.originalPrice - p.price) / p.originalPrice) * 100
     );
 
-    const qty = cart[p.id]?.qty || 0;
+    const qty = cart[p._id]?.qty || 0;
 
     const div = document.createElement("div");
     div.className = "card";
@@ -34,12 +36,12 @@ function renderProducts(products) {
 
       ${
         qty === 0
-        ? `<button onclick="addToCart(${p.id}, ${p.price}, '${p.name}', this)">Add</button>`
+        ? `<button onclick="addToCart('${p._id}', ${p.price}, '${p.name}', this)">Add</button>`
         : `
           <div class="qty-box">
-            <button onclick="dec(${p.id})">−</button>
+            <button onclick="dec('${p._id}')">−</button>
             <span>${qty}</span>
-            <button onclick="inc(${p.id}, ${p.price}, '${p.name}')">+</button>
+            <button onclick="inc('${p._id}', ${p.price}, '${p.name}')">+</button>
           </div>
         `
       }
@@ -49,7 +51,7 @@ function renderProducts(products) {
   });
 }
 
-/* ➕ Add */
+// ADD
 function addToCart(id, price, name, btn) {
   if (!cart[id]) cart[id] = { qty: 0, price, name };
 
@@ -60,7 +62,7 @@ function addToCart(id, price, name, btn) {
   animateAdd(btn);
 }
 
-/* ✨ Animation */
+// ANIMATION
 function animateAdd(btn) {
   const rect = btn.getBoundingClientRect();
 
@@ -81,14 +83,14 @@ function animateAdd(btn) {
   setTimeout(() => clone.remove(), 700);
 }
 
-/* ➕ */
+// INC
 function inc(id, price, name) {
   cart[id].qty++;
   updateTotal();
   renderProducts(allProducts);
 }
 
-/* ➖ */
+// DEC
 function dec(id) {
   cart[id].qty--;
   if (cart[id].qty <= 0) delete cart[id];
@@ -97,14 +99,14 @@ function dec(id) {
   renderProducts(allProducts);
 }
 
-/* 💰 */
+// TOTAL
 function updateTotal() {
   let total = 0;
   Object.values(cart).forEach(i => total += i.qty * i.price);
   document.getElementById("total").innerText = total;
 }
 
-/* 📂 */
+// CATEGORIES
 function renderCategories(products) {
   const cats = ["All", ...new Set(products.map(p => p.category))];
 
@@ -120,7 +122,7 @@ function filterCategory(c) {
   else renderProducts(allProducts.filter(p => p.category === c));
 }
 
-/* 🔍 */
+// SEARCH
 function searchProduct() {
   const val = document.getElementById("search").value.toLowerCase();
 
@@ -129,32 +131,10 @@ function searchProduct() {
   ));
 }
 
-/* 🧾 Checkout */
+// CHECKOUT → NEW PAGE
 function openCheckout() {
-  document.getElementById("checkoutModal").style.display = "block";
-
-  let total = 0;
-  const div = document.getElementById("orderSummary");
-  div.innerHTML = "";
-
-  Object.values(cart).forEach(i => {
-    total += i.qty * i.price;
-    div.innerHTML += `<p>${i.name} - ${i.qty} x ₹${i.price}</p>`;
-  });
-
-  document.getElementById("finalTotal").innerText = total;
-}
-
-function closeCheckout() {
-  document.getElementById("checkoutModal").style.display = "none";
-}
-
-/* 💳 UPI */
-function payUPI() {
-  const total = document.getElementById("finalTotal").innerText;
-
-  window.location.href =
-    `upi://pay?pa=yourname@upi&pn=StudentSaver&am=${total}&cu=INR`;
+  localStorage.setItem("cart", JSON.stringify(cart));
+  window.location.href = "/checkout.html";
 }
 
 loadProducts();
