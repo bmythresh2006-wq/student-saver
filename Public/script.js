@@ -1,6 +1,7 @@
 let allProducts = [];
 let cart = {};
 
+// 🚀 LOAD PRODUCTS
 async function loadProducts() {
   const res = await fetch("/api/products");
   const data = await res.json();
@@ -11,6 +12,7 @@ async function loadProducts() {
   renderCategories(data);
 }
 
+// 🧾 RENDER PRODUCTS
 function renderProducts(products) {
   const container = document.getElementById("products");
   container.innerHTML = "";
@@ -29,19 +31,20 @@ function renderProducts(products) {
       <div class="badge">${discount}% OFF</div>
       <img src="${p.image}">
       <h4>${p.name}</h4>
+
       <p class="strike">₹${p.originalPrice}</p>
       <p class="price">₹${p.price}</p>
 
       ${
         qty === 0
-        ? `<button onclick="addToCart('${p._id}', ${p.price}, '${p.name}')">Add</button>`
-        : `
-          <div class="qty-box">
-            <button onclick="dec('${p._id}')">−</button>
-            <span>${qty}</span>
-            <button onclick="inc('${p._id}', ${p.price}, '${p.name}')">+</button>
-          </div>
-        `
+          ? `<button onclick="addToCart('${p._id}', ${p.price}, '${p.name}')">Add</button>`
+          : `
+            <div class="qty-box">
+              <button onclick="dec('${p._id}')">−</button>
+              <span>${qty}</span>
+              <button onclick="inc('${p._id}', ${p.price}, '${p.name}')">+</button>
+            </div>
+          `
       }
     `;
 
@@ -49,7 +52,7 @@ function renderProducts(products) {
   });
 }
 
-/* ADD */
+// ➕ ADD TO CART
 function addToCart(id, price, name) {
   if (!cart[id]) cart[id] = { qty: 0, price, name };
 
@@ -58,55 +61,72 @@ function addToCart(id, price, name) {
   renderProducts(allProducts);
 }
 
-/* INC */
+// ➕ INCREASE
 function inc(id, price, name) {
   cart[id].qty++;
   updateTotal();
   renderProducts(allProducts);
 }
 
-/* DEC */
+// ➖ DECREASE
 function dec(id) {
   cart[id].qty--;
-  if (cart[id].qty <= 0) delete cart[id];
+
+  if (cart[id].qty <= 0) {
+    delete cart[id];
+  }
 
   updateTotal();
   renderProducts(allProducts);
 }
 
-/* TOTAL */
+// 💰 UPDATE TOTAL
 function updateTotal() {
   let total = 0;
-  Object.values(cart).forEach(i => total += i.qty * i.price);
+
+  Object.values(cart).forEach(item => {
+    total += item.qty * item.price;
+  });
+
   document.getElementById("total").innerText = total;
 }
 
-/* CATEGORY */
+// 📂 CATEGORIES
 function renderCategories(products) {
-  const cats = ["All", ...new Set(products.map(p => p.category))];
+  const categories = ["All", ...new Set(products.map(p => p.category))];
 
-  document.getElementById("categories").innerHTML =
-    cats.map(c => `<button onclick="filterCategory('${c}')">${c}</button>`).join("");
+  const div = document.getElementById("categories");
+
+  div.innerHTML = categories.map(c =>
+    `<button onclick="filterCategory('${c}')">${c}</button>`
+  ).join("");
 }
 
-function filterCategory(c) {
-  if (c === "All") renderProducts(allProducts);
-  else renderProducts(allProducts.filter(p => p.category === c));
+// 🔎 FILTER
+function filterCategory(category) {
+  if (category === "All") {
+    renderProducts(allProducts);
+  } else {
+    renderProducts(allProducts.filter(p => p.category === category));
+  }
 }
 
-/* SEARCH */
+// 🔍 SEARCH
 function searchProduct() {
   const val = document.getElementById("search").value.toLowerCase();
 
-  renderProducts(allProducts.filter(p =>
-    p.name.toLowerCase().includes(val)
-  ));
+  renderProducts(
+    allProducts.filter(p =>
+      p.name.toLowerCase().includes(val)
+    )
+  );
 }
 
-/* ✅ NEW CHECKOUT (NO POPUP) */
+// 🚀 FINAL CHECKOUT (NO POPUP)
 function openCheckout() {
   localStorage.setItem("cart", JSON.stringify(cart));
   window.location.href = "/checkout.html";
 }
 
+// 🔄 INIT
 loadProducts();
