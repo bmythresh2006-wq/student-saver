@@ -1,26 +1,11 @@
-const express = require("express");
-const path = require("path");
+// UPDATE FULL PRODUCT
+app.put("/api/product/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const updated = req.body;
 
-const app = express();
+  products = products.map(p =>
+    p.id === id ? { ...p, ...updated } : p
+  );
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "Public")));
-
-let products = require("./products");
-
-app.get("/api/products", (req, res) => {
-  res.json(products);
-});
-
-app.post("/api/add-product", (req, res) => {
-  const newProduct = req.body;
-  newProduct.id = products.length + 1;
-  products.push(newProduct);
   res.json({ success: true });
-});
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log("Server running");
 });

@@ -3,38 +3,127 @@
 <head>
   <title>Admin Panel</title>
 </head>
+
 <body>
 
 <h2>Add Product</h2>
 
-<input id="name" placeholder="Product Name"><br><br>
-<input id="originalPrice" placeholder="Original Price"><br><br>
+<input id="name" placeholder="Name"><br><br>
+<input id="originalPrice" placeholder="MRP"><br><br>
 <input id="price" placeholder="Selling Price"><br><br>
 <input id="category" placeholder="Category"><br><br>
-<input id="image" placeholder="Image path (images/maggi.jpg)"><br><br>
+<input id="image" placeholder="Image path"><br><br>
 
-<button onclick="addProduct()">Add Product</button>
+<button onclick="addProduct()">Add</button>
 
-<h3 id="msg"></h3>
+<hr>
+
+<h2>Edit Product</h2>
+
+<input id="editId" placeholder="Product ID"><br><br>
+<input id="editName" placeholder="Name"><br><br>
+<input id="editOriginalPrice" placeholder="MRP"><br><br>
+<input id="editPrice" placeholder="Selling Price"><br><br>
+<input id="editCategory" placeholder="Category"><br><br>
+<input id="editImage" placeholder="Image path"><br><br>
+
+<button onclick="updateProduct()">Update</button>
+
+<hr>
+
+<h2>All Products</h2>
+<div id="list"></div>
 
 <script>
+
+// LOAD PRODUCTS
+async function loadProducts() {
+  const res = await fetch("/api/products");
+  const data = await res.json();
+
+  const div = document.getElementById("list");
+  div.innerHTML = "";
+
+  data.forEach(p => {
+    div.innerHTML += `
+      <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+        <b>ID:</b> ${p.id}<br>
+        <b>${p.name}</b><br>
+        ₹${p.price}<br>
+        Category: ${p.category}
+
+        <br><br>
+
+        <button onclick="fillEdit(${p.id}, '${p.name}', ${p.originalPrice}, ${p.price}, '${p.category}', '${p.image}')">
+          Edit
+        </button>
+
+        <button onclick="deleteProduct(${p.id})">
+          Delete
+        </button>
+      </div>
+    `;
+  });
+}
+
+// ADD PRODUCT
 async function addProduct() {
   const product = {
-    name: document.getElementById("name").value,
-    originalPrice: Number(document.getElementById("originalPrice").value),
-    price: Number(document.getElementById("price").value),
-    category: document.getElementById("category").value,
-    image: "/" + document.getElementById("image").value
+    name: name.value,
+    originalPrice: Number(originalPrice.value),
+    price: Number(price.value),
+    category: category.value,
+    image: "/" + image.value
   };
 
   await fetch("/api/add-product", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: {"Content-Type":"application/json"},
     body: JSON.stringify(product)
   });
 
-  document.getElementById("msg").innerText = "Product Added!";
+  loadProducts();
 }
+
+// DELETE
+async function deleteProduct(id) {
+  await fetch("/api/product/" + id, { method: "DELETE" });
+  loadProducts();
+}
+
+// FILL EDIT FORM
+function fillEdit(id, nameVal, mrp, priceVal, cat, img) {
+  editId.value = id;
+  editName.value = nameVal;
+  editOriginalPrice.value = mrp;
+  editPrice.value = priceVal;
+  editCategory.value = cat;
+  editImage.value = img.replace("/", "");
+}
+
+// UPDATE PRODUCT
+async function updateProduct() {
+  const id = editId.value;
+
+  const updated = {
+    name: editName.value,
+    originalPrice: Number(editOriginalPrice.value),
+    price: Number(editPrice.value),
+    category: editCategory.value,
+    image: "/" + editImage.value
+  };
+
+  await fetch("/api/product/" + id, {
+    method: "PUT",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(updated)
+  });
+
+  loadProducts();
+}
+
+loadProducts();
+
 </script>
 
 </body>
