@@ -1,66 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Admin Dashboard - Student Saver</title>
+  <link rel="stylesheet" href="admin.css">
 </head>
-
 <body>
 
-<div class="top-bar">
-  🛠 Admin Dashboard
-</div>
+<div class="container">
+  <h1>🛠 Admin Dashboard</h1>
 
-<div class="admin-container">
+  <!-- Add Product -->
+  <div class="card">
+    <h2>Add / Edit Product</h2>
 
-  <h2>Add Product</h2>
+    <input id="name" placeholder="Product Name">
+    <input id="original" placeholder="Original Price" type="number">
+    <input id="selling" placeholder="Selling Price" type="number">
 
-  <input id="name" placeholder="Product Name">
-  <input id="mrp" placeholder="Original Price">
-  <input id="price" placeholder="Selling Price">
-  <input id="category" placeholder="Category">
-  <input id="image" placeholder="images/product.jpg">
+    <select id="category">
+      <option>Snacks</option>
+      <option>Stationery</option>
+      <option>Drinks</option>
+    </select>
 
-  <button onclick="saveProduct()">Add Product</button>
+    <input type="file" id="image">
 
-  <h2>All Products</h2>
-
-  <input id="adminSearch" placeholder="Search..." onkeyup="searchAdmin()">
-
-  <table>
-    <thead>
-      <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>MRP</th>
-        <th>Price</th>
-        <th>Category</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-
-    <tbody id="tableBody"></tbody>
-  </table>
-
-</div>
-
-<!-- EDIT MODAL -->
-<div id="editModal" class="modal">
-  <div class="modal-box">
-    <h3>Edit Product</h3>
-
-    <input id="editName">
-    <input id="editMRP">
-    <input id="editPrice">
-    <input id="editCategory">
-    <input id="editImage">
-
-    <button onclick="updateProduct()">Update</button>
-    <button onclick="closeModal()">Close</button>
+    <button onclick="addProduct()">Save Product</button>
   </div>
+
+  <!-- Product List -->
+  <div class="card">
+    <h2>All Products</h2>
+    <div id="productList"></div>
+  </div>
+
 </div>
 
-<script src="admin.js?v=2"></script>
-
+<script src="admin.js"></script>
 </body>
 </html>

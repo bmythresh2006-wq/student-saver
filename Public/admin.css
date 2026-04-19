@@ -1,0 +1,67 @@
+body {
+  font-family: Arial;
+  background: #f5f6fa;
+  margin: 0;
+}
+
+.container {
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+input, select {
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #2ecc71;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #27ae60;
+}
+
+.product {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fafafa;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+}
+
+.product img {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+}
+
+.actions button {
+  margin-left: 5px;
+  padding: 5px 10px;
+}
