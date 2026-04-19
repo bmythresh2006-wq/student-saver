@@ -1,7 +1,6 @@
 let allProducts = [];
 let cart = {};
 
-// LOAD PRODUCTS
 async function loadProducts() {
   const res = await fetch("/api/products");
   const data = await res.json();
@@ -12,7 +11,6 @@ async function loadProducts() {
   renderCategories(data);
 }
 
-// RENDER PRODUCTS
 function renderProducts(products) {
   const container = document.getElementById("products");
   container.innerHTML = "";
@@ -36,7 +34,7 @@ function renderProducts(products) {
 
       ${
         qty === 0
-        ? `<button onclick="addToCart('${p._id}', ${p.price}, '${p.name}', this)">Add</button>`
+        ? `<button onclick="addToCart('${p._id}', ${p.price}, '${p.name}')">Add</button>`
         : `
           <div class="qty-box">
             <button onclick="dec('${p._id}')">−</button>
@@ -51,46 +49,23 @@ function renderProducts(products) {
   });
 }
 
-// ADD
-function addToCart(id, price, name, btn) {
+/* ADD */
+function addToCart(id, price, name) {
   if (!cart[id]) cart[id] = { qty: 0, price, name };
 
   cart[id].qty++;
   updateTotal();
   renderProducts(allProducts);
-
-  animateAdd(btn);
 }
 
-// ANIMATION
-function animateAdd(btn) {
-  const rect = btn.getBoundingClientRect();
-
-  const clone = btn.cloneNode(true);
-  clone.classList.add("fly");
-
-  clone.style.left = rect.left + "px";
-  clone.style.top = rect.top + "px";
-
-  document.body.appendChild(clone);
-
-  setTimeout(() => {
-    clone.style.left = "90%";
-    clone.style.top = "10px";
-    clone.style.opacity = 0;
-  }, 10);
-
-  setTimeout(() => clone.remove(), 700);
-}
-
-// INC
+/* INC */
 function inc(id, price, name) {
   cart[id].qty++;
   updateTotal();
   renderProducts(allProducts);
 }
 
-// DEC
+/* DEC */
 function dec(id) {
   cart[id].qty--;
   if (cart[id].qty <= 0) delete cart[id];
@@ -99,22 +74,19 @@ function dec(id) {
   renderProducts(allProducts);
 }
 
-// TOTAL
+/* TOTAL */
 function updateTotal() {
   let total = 0;
   Object.values(cart).forEach(i => total += i.qty * i.price);
   document.getElementById("total").innerText = total;
 }
 
-// CATEGORIES
+/* CATEGORY */
 function renderCategories(products) {
   const cats = ["All", ...new Set(products.map(p => p.category))];
 
-  const div = document.getElementById("categories");
-
-  div.innerHTML = cats.map(c =>
-    `<button onclick="filterCategory('${c}')">${c}</button>`
-  ).join("");
+  document.getElementById("categories").innerHTML =
+    cats.map(c => `<button onclick="filterCategory('${c}')">${c}</button>`).join("");
 }
 
 function filterCategory(c) {
@@ -122,7 +94,7 @@ function filterCategory(c) {
   else renderProducts(allProducts.filter(p => p.category === c));
 }
 
-// SEARCH
+/* SEARCH */
 function searchProduct() {
   const val = document.getElementById("search").value.toLowerCase();
 
@@ -131,7 +103,7 @@ function searchProduct() {
   ));
 }
 
-// CHECKOUT → NEW PAGE
+/* ✅ NEW CHECKOUT (NO POPUP) */
 function openCheckout() {
   localStorage.setItem("cart", JSON.stringify(cart));
   window.location.href = "/checkout.html";
