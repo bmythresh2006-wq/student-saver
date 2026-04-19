@@ -4,35 +4,30 @@
   <title>Checkout</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="top-bar">
-  🧾 Checkout
-</div>
+<h1>🛒 Checkout</h1>
 
-<div class="checkout-container">
+<!-- 🧾 CART ITEMS -->
+<div id="cartItems"></div>
 
-  <h2>Order Summary</h2>
-  <div id="orderSummary"></div>
+<!-- 💰 TOTAL -->
+<h2>Total: ₹<span id="total">0</span></h2>
 
-  <h2>Total ₹<span id="finalTotal"></span></h2>
+<hr>
 
-  <hr>
+<!-- 💳 UPI PAYMENT -->
+<h3>Pay via UPI</h3>
 
-  <h2>Pay via UPI / PhonePe</h2>
+<!-- QR CODE -->
+<img id="upiQR" width="200">
 
-  <div class="payment-box">
-    <p><b>PhonePe Number:</b> 8074923471</p>
-    <p><b>UPI ID:</b> yourname@upi</p>
+<br><br>
 
-    <img id="qrImage">
-
-    <button onclick="payUPI()">Pay Now</button>
-  </div>
-
-</div>
+<!-- PAY BUTTON -->
+<button onclick="payUPI()">Pay with UPI</button>
 
 <script src="checkout.js"></script>
+
 </body>
 </html>

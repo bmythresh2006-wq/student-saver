@@ -1,26 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Student Saver</title>
+  <title>Student Saver Delivery</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-  🛒 ₹<span id="cartCount">0</span>
-  <button onclick="openCheckout()">Checkout</button>
+<!-- 🔥 TOP BAR -->
+<div style="background: green; color: white; padding: 10px; display:flex; justify-content: space-between;">
+  <div>🛒 ₹</div>
+  <div>Cart: <span id="cartCount">0</span></div>
+  <button onclick="goToCheckout()">Checkout</button>
 </div>
 
-<h2 style="padding:10px;">Student Saver Delivery</h2>
+<h1>Student Saver Delivery</h1>
 
-<input id="search" onkeyup="searchProducts()" placeholder="Search products...">
+<!-- 🔍 SEARCH -->
+<input id="search" onkeyup="searchProducts()" placeholder="Search products..." style="width:100%; padding:10px;">
 
-<div id="categories"></div>
+<!-- 🧩 CATEGORIES -->
+<div style="margin:10px 0;">
+  <button onclick="filterCategory('All')">All</button>
+  <button onclick="filterCategory('Snacks')">Snacks</button>
+  <button onclick="filterCategory('Drinks')">Drinks</button>
+  <button onclick="filterCategory('Stationery')">Stationery</button>
+</div>
 
-<div id="products"></div>
+<!-- 📦 PRODUCTS -->
+<div id="products" style="display:flex; gap:20px; flex-wrap:wrap;"></div>
 
-<script src="script.js?v=2"></script>
+<script src="script.js"></script>
+
 </body>
 </html>
