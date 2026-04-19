@@ -1,7 +1,6 @@
 let allProducts = [];
 let editId = null;
 
-// LOAD PRODUCTS
 async function loadProducts() {
   const res = await fetch("/api/products");
   const data = await res.json();
@@ -10,7 +9,6 @@ async function loadProducts() {
   renderTable(data);
 }
 
-// RENDER TABLE
 function renderTable(products) {
   const body = document.getElementById("tableBody");
   body.innerHTML = "";
@@ -23,7 +21,6 @@ function renderTable(products) {
         <td>₹${p.originalPrice}</td>
         <td>₹${p.price}</td>
         <td>${p.category}</td>
-
         <td>
           <button onclick="openEdit('${p._id}')">Edit</button>
           <button onclick="deleteProduct('${p._id}')">Delete</button>
@@ -33,7 +30,6 @@ function renderTable(products) {
   });
 }
 
-// ADD PRODUCT
 async function saveProduct() {
   const product = {
     name: name.value,
@@ -53,14 +49,11 @@ async function saveProduct() {
   loadProducts();
 }
 
-// DELETE
 async function deleteProduct(id) {
   await fetch("/api/product/" + id, { method: "DELETE" });
-
   loadProducts();
 }
 
-// OPEN EDIT
 function openEdit(id) {
   const p = allProducts.find(x => x._id === id);
 
@@ -75,7 +68,6 @@ function openEdit(id) {
   document.getElementById("editModal").style.display = "flex";
 }
 
-// UPDATE
 async function updateProduct() {
   const updated = {
     name: editName.value,
@@ -95,14 +87,12 @@ async function updateProduct() {
   loadProducts();
 }
 
-// CLOSE MODAL
 function closeModal() {
   document.getElementById("editModal").style.display = "none";
 }
 
-// SEARCH
 function searchAdmin() {
-  const val = document.getElementById("adminSearch").value.toLowerCase();
+  const val = adminSearch.value.toLowerCase();
 
   renderTable(allProducts.filter(p =>
     p.name.toLowerCase().includes(val)

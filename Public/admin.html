@@ -13,25 +13,17 @@
 
 <div class="admin-container">
 
-  <h2>Add / Edit Product</h2>
+  <h2>Add Product</h2>
 
-  <div class="form">
-    <input id="name" placeholder="Product Name">
-    <input id="mrp" placeholder="Original Price">
-    <input id="price" placeholder="Selling Price">
+  <input id="name" placeholder="Product Name">
+  <input id="mrp" placeholder="Original Price">
+  <input id="price" placeholder="Selling Price">
+  <input id="category" placeholder="Category">
+  <input id="image" placeholder="images/product.jpg">
 
-    <select id="category">
-      <option>Instant Food</option>
-      <option>Snacks</option>
-      <option>Beverages</option>
-    </select>
+  <button onclick="saveProduct()">Add Product</button>
 
-    <input id="image" placeholder="images/product.jpg">
-
-    <button onclick="saveProduct()">Save Product</button>
-  </div>
-
-  <h2>Products</h2>
+  <h2>All Products</h2>
 
   <input id="adminSearch" placeholder="Search..." onkeyup="searchAdmin()">
 
@@ -46,12 +38,13 @@
         <th>Actions</th>
       </tr>
     </thead>
+
     <tbody id="tableBody"></tbody>
   </table>
 
 </div>
 
-<!-- EDIT POPUP -->
+<!-- EDIT MODAL -->
 <div id="editModal" class="modal">
   <div class="modal-box">
     <h3>Edit Product</h3>
@@ -59,13 +52,7 @@
     <input id="editName">
     <input id="editMRP">
     <input id="editPrice">
-
-    <select id="editCategory">
-      <option>Instant Food</option>
-      <option>Snacks</option>
-      <option>Beverages</option>
-    </select>
-
+    <input id="editCategory">
     <input id="editImage">
 
     <button onclick="updateProduct()">Update</button>
@@ -73,6 +60,7 @@
   </div>
 </div>
 
-<script src="admin.js"></script>
+<script src="admin.js?v=2"></script>
+
 </body>
 </html>
